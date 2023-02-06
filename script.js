@@ -18,13 +18,26 @@ function setBgColor() {
   document.body.style.backgroundColor = color;
 }
 
+function getMidnightDate() {
+  const midnight = new Date();
+  const now = new Date();
+
+  midnight.setTime(now.setUTCHours(0));
+  midnight.setTime(now.setMinutes(0));
+  midnight.setTime(now.setSeconds(0));
+  midnight.setTime(now.setMilliseconds(0));
+
+  return midnight.getTime();
+}
+
 function showQuote() {
   fetch("./quotes.json")
     .then(function (response) {
       return response.json();
     })
     .then(function (quotes) {
-      const random = Math.floor(Math.random() * quotes.length);
+      const midnightDate = getMidnightDate();
+      const random = midnightDate % quotes.length;
       const quote = quotes[random];
 
       document.getElementById('quote').innerHTML = quote.text;
